@@ -174,7 +174,7 @@ class UnknownLineException(Exception):
     pass
 
 
-class DzieckoWeMgle:
+class DrunkenChildInTheFog:
     def __init__(self, fp, char_margin=1):
         self.fp = fp
 
