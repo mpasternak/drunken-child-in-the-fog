@@ -52,11 +52,71 @@ class Element:
     def position_in_document(self):
         """Returns a single integer, which gives a position of this element 
         on the page. """
-        position_on_page = self.page.width * self.y1 + self.x1
+        position_on_page = self.page.width * 100 * self.y1 + self.x1
         return self.page.position_in_document() + position_on_page
 
     def height(self):
         return self.y2 - self.y1
+
+
+class BoxQuery:
+    """Helper object used when querying for objects inside a given box
+    (x1, y1), (x2, y2). """
+
+    def __init__(self, x1, y1, x2, y2,
+                 include_top=True, include_left=True,
+                 include_bottom=True, include_right=True):
+        assert x1 <= x2
+        assert y1 <= y2
+
+        self.x1 = x1
+        self.x2 = x2
+        self.y1 = y1
+        self.y2 = y2
+
+        self.include_top = include_top
+        self.include_left = include_left
+        self.include_bottom = include_bottom
+        self.include_right = include_right
+
+    def x_inside(self, x1):
+        if self.include_left and self.include_right:
+            x_inside = self.x1 <= x1 <= self.x2
+        elif self.include_left and not self.include_right:
+            x_inside = self.x1 <= x1 < self.x2
+        elif not self.include_left and self.include_right:
+            x_inside = self.x1 < x1 <= self.x2
+        else:
+            x_inside = self.x1 < x1 < self.x2
+        return x_inside
+
+    def y_inside(self, y1):
+
+        if self.include_top and self.include_bottom:
+            y_inside = self.y1 <= y1 <= self.y2
+        elif self.include_top and not self.include_bottom:
+            y_inside = self.y1 <= y1 < self.y2
+        elif not self.include_top and self.include_bottom:
+            y_inside = self.y1 < y1 <= self.y2
+        else:
+            y_inside = self.y1 < y1 < self.y2
+
+        return y_inside
+
+    def point_inside(self, x1, y1):
+        return self.x_inside(x1) and self.y_inside(y1)
+
+    def starts_inside(self, element):
+        """Returns true if element (x1, y1) coordinate is inside the box
+        described by this object. """
+        return self.point_inside(element.x1, element.y1)
+
+    def ends_inside(self, element):
+        return self.point_inside(element.x2, element.y2)
+
+    def whole_inside(self, element):
+        """Whole element, from start to end is inside the box."""
+        return self.starts_inside(element) and self.ends_inside(element)
 
 
 class ElementSet:
@@ -118,17 +178,14 @@ class ElementSet:
         except IndexError:
             raise NoSuchElement
 
-    def inside(self, x1, y1, x2, y2):
+    def inside(self, box_query, f="whole_inside"):
         """Returns :class:`.ElementSet` which contains every element from the current 
         set contained in a box described by coordinates (x1, y1), (x2, 
-        y2). Left-top edge is inclusive, bottom-right is not. """
-        assert x1 <= x2
-        assert y1 <= y2
+        y2). """
         ret = []
+        fun = getattr(box_query, f)
         for element in self.elements:
-            first_inside = x1 <= element.x1 < x2 and y1 <= element.y1 < y2
-            second_inside = x1 <= element.x2 < x2 and y1 <= element.y2 < y2
-            if first_inside or second_inside:
+            if fun(element):
                 ret.append(element)
         return ElementSet(ret)
 
@@ -170,12 +227,14 @@ class Page:
         if self.previous is None:
             return 0
 
-        current_position = self.previous.width + self.previous.hegith
+        # For proper element rendering in 2 decimal places, we need to
+        # multiply the width by 100.
+        current_position = self.previous.width * 100 * self.previous.height
         return self.previous.position_in_document() + current_position
 
     def sort_elements(self):
         """Sort elements in-place, basing on their position on the page.  """
-        self.elements.sort(key=lambda elem: elem.y1 * self.width + elem.x1)
+        self.elements.sort(key=lambda elem: elem.position_in_document())
         self.sorted = True
 
     def everything(self):
@@ -193,7 +252,7 @@ class Page:
         """Return an :class:`.ElementSet` with every single element from this page, 
         contained below coordinates (left, top) specified in parameters. 
         """
-        return self.inside(left, top, self.width, self.height)
+        return self.inside(BoxQuery(left, top, self.width, self.height))
 
     def containing_text(self, text):
         """Return an :class:`.ElementSet` with every single element containing text 
@@ -217,11 +276,11 @@ class Document:
         """Returns a sorted :class:`.ElementSet` containing every single element, 
         from every single page. Elements are sorted by their position in the 
         document. """
+        self.sort()
         ret = []
         for page in self.get_pages():
             for elem in page.elements:
                 ret.append(elem)
-        ret.sort(key=lambda elem: elem.position_in_document())
         return ElementSet(ret)
 
     def get_pages(self):
