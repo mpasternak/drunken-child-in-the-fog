@@ -33,11 +33,6 @@ Features
 * Python 2.7 and 3.6 support
 
 
-See Also
---------
-
-* `Tabula`_ - extract table data from PDFs in Ruby - including GUI
-
 Credits
 ---------
 
@@ -46,4 +41,3 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
 .. _`pdfminer.six`: https://github.com/pdfminer/pdfminer.six
-.. _Tabula: http://tabula.technology
