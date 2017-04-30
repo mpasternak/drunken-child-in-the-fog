@@ -19,7 +19,7 @@ test_requirements = [
 
 setup(
     name='drunken_child_in_the_fog',
-    version='0.3.0',
+    version='0.3.1',
     description="PDF parser API inspired by Django QuerySet, using "
                 "PDFMiner.six",
     long_description=readme + '\n\n' + history,
