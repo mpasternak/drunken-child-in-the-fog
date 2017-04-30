@@ -18,6 +18,7 @@ VERTICAL_LINE = "__vertical_line__"
 
 
 class NoSuchElement(Exception):
+    """Raised when there's no such :class:`Element`. """
     pass
 
 
@@ -59,8 +60,12 @@ class Element:
 
 
 class ElementSet:
-    """Class used to query for elements, somehow modelled on Django's 
-    QuerySet. """
+    """Class used to query for :class:`.Element`, somehow modelled on 
+    `Django QuerySet`_. 
+    
+    .. _Django QuerySet: https://docs.djangoproject.com/en/1.11/ref/models/quer
+    ysets/
+    """
 
     def __init__(self, elements=None):
         if elements is None:
@@ -68,31 +73,34 @@ class ElementSet:
         self.elements = elements
 
     def all(self):
+        """Return a list with every :class:`.Element` in the set. """
         return self.elements
 
     def __iter__(self):
         return self.elements.__iter__()
 
     def count(self):
+        """Return number of :class:`.Element` in the set. """
         return len(self.elements)
 
     def __len__(self):
         return self.count()
 
     def vertical(self):
-        """Returns ElementSet containing only vertical lines from current 
+        """Returns :class:`.ElementSet` containing only vertical lines from current 
         set. """
         return ElementSet([elem for elem in self.elements if elem.text ==
                            VERTICAL_LINE])
 
     def horizontal(self):
-        """Returns ElementSet containing only horizontal lines from 
+        """Returns :class:`.ElementSet` containing only horizontal lines from 
         current set."""
         return ElementSet([elem for elem in self.elements if elem.text ==
                            HORIZONTAL_LINE])
 
     def lines(self):
-        """Returns ElementSet containing lines from the current set. """
+        """Returns :class:`.ElementSet` containing lines from the current set.
+         """
         return ElementSet([elem for elem in self.elements if elem.text in (
             HORIZONTAL_LINE, VERTICAL_LINE)])
 
@@ -111,7 +119,7 @@ class ElementSet:
             raise NoSuchElement
 
     def inside(self, x1, y1, x2, y2):
-        """Returns ElementSet which contains every element from the current 
+        """Returns :class:`.ElementSet` which contains every element from the current 
         set contained in a box described by coordinates (x1, y1), (x2, 
         y2). Left-top edge is inclusive, bottom-right is not. """
         assert x1 <= x2
@@ -125,7 +133,7 @@ class ElementSet:
         return ElementSet(ret)
 
     def text(self):
-        """Returns ElementSet containing every text element from the current 
+        """Returns :class:`.ElementSet` containing every text element from the current 
         set. """
 
         ret = []
@@ -135,7 +143,7 @@ class ElementSet:
         return ElementSet(ret)
 
     def containing_text(self, text):
-        """Returns ElementSet with all elements which have 'text' 
+        """Returns :class:`.ElementSet` with all elements which have 'text' 
         inside."""
         return ElementSet([elem for elem in self.elements if elem.text.find(
             text) >= 0])
@@ -171,25 +179,26 @@ class Page:
         self.sorted = True
 
     def everything(self):
-        """Return an ElementSet with every single element from this page. """
+        """Return an :class:`.ElementSet` with every single element from this 
+        page. """
         return ElementSet(self.elements)
 
     def inside(self, *args, **kw):
-        """Return an ElementSet with every single element from this page, 
+        """Return an :class:`.ElementSet` with every single element from this page, 
         contained in the box specified by args. See Element.inside for 
         details. """
         return self.everything().inside(*args, **kw)
 
     def starting_from(self, top, left):
-        """Return an ElementSet with every single element from this page, 
+        """Return an :class:`.ElementSet` with every single element from this page, 
         contained below coordinates (left, top) specified in parameters. 
         """
         return self.inside(left, top, self.width, self.height)
 
     def containing_text(self, text):
-        """Return an ElementSet with every single element containing text 
+        """Return an :class:`.ElementSet` with every single element containing text 
         specified by parameter. See Element.contains_text for details. """
-        return self.everything().contains_text(text)
+        return self.everything().containing_text(text)
 
 
 class Document:
@@ -205,7 +214,7 @@ class Document:
         return page
 
     def everything(self):
-        """Returns a sorted ElementSet containing every single element, 
+        """Returns a sorted :class:`.ElementSet` containing every single element, 
         from every single page. Elements are sorted by their position in the 
         document. """
         ret = []

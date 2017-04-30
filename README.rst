@@ -18,7 +18,7 @@ Drunken Child In The Fog
      :alt: Updates
 
 
-Funky PDF parser API, using pdfminer3k (or PDFMiner for older Pythons).
+PDF parser API inspired by Django QuerySet, using `pdfminer.six`_:
 
 
 * Free software: MIT license
@@ -28,7 +28,8 @@ Funky PDF parser API, using pdfminer3k (or PDFMiner for older Pythons).
 Features
 --------
 
-* TODO
+* ElementSet - a QuerySet-like object for browsing throught PDF structure
+* Python 2.7 and 3.6 support
 
 Credits
 ---------
@@ -37,4 +38,4 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-
+.. _`pdfminer.six`: https://github.com/pdfminer/pdfminer.six
