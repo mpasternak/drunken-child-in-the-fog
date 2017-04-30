@@ -3,18 +3,18 @@ Drunken Child In The Fog
 ========================
 
 
-.. image:: https://img.shields.io/pypi/v/drunken_child_in_the_fog.svg
-        :target: https://pypi.python.org/pypi/drunken_child_in_the_fog
+.. image:: https://img.shields.io/pypi/v/drunken-child-in-the-fog.svg
+        :target: https://pypi.python.org/pypi/drunken-child-in-the-fog
 
-.. image:: https://img.shields.io/travis/mpasternak/drunken_child_in_the_fog.svg
-        :target: https://travis-ci.org/mpasternak/drunken_child_in_the_fog
+.. image:: https://img.shields.io/travis/mpasternak/drunken-child-in-the-fog.svg
+        :target: https://travis-ci.org/mpasternak/drunken-child-in-the-fog
 
 .. image:: https://readthedocs.org/projects/drunken-child-in-the-fog/badge/?version=latest
         :target: https://drunken-child-in-the-fog.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/mpasternak/drunken_child_in_the_fog/shield.svg
-     :target: https://pyup.io/repos/github/mpasternak/drunken_child_in_the_fog/
+.. image:: https://pyup.io/repos/github/mpasternak/drunken-child-in-the-fog/shield.svg
+     :target: https://pyup.io/repos/github/mpasternak/drunken-child-in-the-fog/
      :alt: Updates
 
 
