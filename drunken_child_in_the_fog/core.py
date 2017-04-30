@@ -65,14 +65,21 @@ class BoxQuery:
 
     def __init__(self, x1, y1, x2, y2,
                  include_top=True, include_left=True,
-                 include_bottom=True, include_right=True):
+                 include_bottom=True, include_right=True,
+                 fuzzy_border=0):
         assert x1 <= x2
         assert y1 <= y2
 
-        self.x1 = x1
-        self.x2 = x2
-        self.y1 = y1
-        self.y2 = y2
+        self.orig_x1 = x1
+        self.orig_x2 = x2
+        self.orig_y1 = y1
+        self.orig_y2 = y2
+        self.fuzzy_border = 0
+
+        self.x1 = x1 - fuzzy_border
+        self.x2 = x2 + fuzzy_border
+        self.y1 = y1 - fuzzy_border
+        self.y2 = y2 + fuzzy_border
 
         self.include_top = include_top
         self.include_left = include_left
@@ -259,6 +266,37 @@ class Page:
         specified by parameter. See Element.contains_text for details. """
         return self.everything().containing_text(text)
 
+    def lines(self):
+        return self.everything().lines()
+
+    def vertical(self):
+        return self.everything().lines().vertical()
+
+    def horizontal(self):
+        return self.everything().lines().horizontal()
+
+    def defrag_lines(self):
+        remove = []
+        lines = self.lines().all()
+
+        for line in lines:
+            if line in remove:
+                continue
+
+            for other_line in lines:
+                if other_line in remove:
+                    continue
+                if line == other_line:
+                    continue
+                if line.text == other_line.text:  # same type
+                    if other_line.x1 == line.x2 and other_line.y1 == line.y2:
+                        line.x2 = other_line.x2
+                        line.y2 = other_line.y2
+                        remove.append(other_line)
+
+        for line in remove:
+            self.elements.remove(line)
+
 
 class Document:
     """Document holds all pages. """
@@ -291,6 +329,7 @@ class Document:
         """Sort elements in every single page. """
         for page in self.get_pages():
             page.sort_elements()
+            page.defrag_lines()
 
 
 class UnknownLineException(Exception):
