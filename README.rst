@@ -18,7 +18,8 @@ Drunken Child In The Fog
      :alt: Updates
 
 
-PDF parser API inspired by Django QuerySet, using `pdfminer.six`_:
+PDF parser API inspired by Django QuerySet, using `pdfminer.six`_ . Created
+mainly to make data extraction from tables hidden in PDF easier.
 
 
 * Free software: MIT license
@@ -31,6 +32,12 @@ Features
 * ElementSet - a QuerySet-like object for browsing throught PDF structure
 * Python 2.7 and 3.6 support
 
+
+See Also
+--------
+
+* `Tabula`_ - extract table data from PDFs in Ruby - including GUI
+
 Credits
 ---------
 
@@ -39,3 +46,4 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
 .. _`pdfminer.six`: https://github.com/pdfminer/pdfminer.six
+.. _Tabula: http://tabula.technology
