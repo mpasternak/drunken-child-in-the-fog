@@ -10,12 +10,13 @@ To use Drunken Child In The Fog in a project::
     document.everything().containing_text("Hello")
 
     for page in document.get_pages():
+        first_line = page.lines().horizontal().first()
+        second_line = page.lines().horizontal().second()
+        caption = page.inside(
+            first_line.x1, first_line.y1,
+            second_line.x2, second_line.y2).text().first()
 
-        table_start = page.inside(200, 200, page.width, page.height).\
-            lines().horizontal()
-
-        caption = page.inside(table_start.x1, table_start.y1,
-                        page.width, page.height).text().first()
+        vertical_lines = page.lines().vertical()
 
 For more practical example, see `amms-planop2xls`_ project.
 
