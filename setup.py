@@ -25,7 +25,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Michał Pasternak",
     author_email='michal.dtz@gmail.com',
-    url='https://github.com/mpasternak/drunken_child_in_the_fog',
+    url='https://github.com/mpasternak/drunken-child-in-the-fog',
     packages=[
         'drunken_child_in_the_fog',
     ],
