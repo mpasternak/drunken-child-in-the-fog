@@ -19,7 +19,7 @@ test_requirements = [
 
 setup(
     name='drunken_child_in_the_fog',
-    version='0.1.0',
+    version='0.1.1',
     description="Funky PDF parser API, using PDFMiner.six",
     long_description=readme + '\n\n' + history,
     author="Michał Pasternak",
