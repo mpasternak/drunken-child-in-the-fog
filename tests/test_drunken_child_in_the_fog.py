@@ -11,7 +11,8 @@ import os
 
 import pytest
 
-from drunken_child_in_the_fog.core import DrunkenChildInTheFog, NoSuchElement
+from drunken_child_in_the_fog.core import DrunkenChildInTheFog, NoSuchElement, \
+    BoxQuery
 
 
 @pytest.fixture
@@ -39,8 +40,8 @@ def test_content(test_file):
         assert e.containing_text("Hello").second()
 
     page = document.get_pages()[0]
-    assert e.inside(0, 0, page.width, page.height).count() > 0
-    assert page.inside(0, 0, page.width, page.height).count() > 0
+    assert e.inside(BoxQuery(0, 0, page.width, page.height)).count() > 0
+    assert page.inside(BoxQuery(0, 0, page.width, page.height)).count() > 0
     assert page.containing_text("Hello").count() == 1
 
     e = e.all()[0]
