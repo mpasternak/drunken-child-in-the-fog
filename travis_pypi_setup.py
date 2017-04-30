@@ -21,7 +21,7 @@ except:
     from urllib.request import urlopen
 
 
-GITHUB_REPO = 'mpasternak/drunken_child_in_the_fog'
+GITHUB_REPO = 'mpasternak/drunken-child-in-the-fog'
 TRAVIS_CONFIG_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '.travis.yml')
 
