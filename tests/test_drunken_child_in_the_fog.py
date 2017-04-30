@@ -18,6 +18,10 @@ from drunken_child_in_the_fog.core import DrunkenChildInTheFog, NoSuchElement
 def test_file():
     return open(os.path.join(os.path.dirname(__file__), "test.pdf"), "rb")
 
+@pytest.fixture
+def test_file_2():
+    return open(os.path.join(os.path.dirname(__file__), "test2.pdf"), "rb")
+
 
 def test_content(test_file):
     document = DrunkenChildInTheFog(test_file).get_document()
@@ -44,3 +48,9 @@ def test_content(test_file):
 
     assert str(e) != ""
 
+
+def test_file_generated_from_pages(test_file_2):
+    document = DrunkenChildInTheFog(test_file_2).get_document()
+
+    e = document.everything()
+    assert e.count() > 0
